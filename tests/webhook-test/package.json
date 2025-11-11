@@ -1,0 +1,13 @@
+{
+    "name": "murmure-webhook-test",
+    "version": "1.0.0",
+    "description": "Serveur de test pour les webhooks Murmure",
+    "main": "testwebhook.js",
+    "scripts": {
+        "dev": "node testwebhook.js"
+    },
+    "dependencies": {
+        "express": "^5.1.0"
+    }
+}
+

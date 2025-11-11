@@ -7,6 +7,7 @@ use crate::history;
 use crate::model::Model;
 use crate::overlay;
 use crate::stats;
+use crate::webhook;
 use anyhow::{Context, Result};
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use hound::{WavSpec, WavWriter};
@@ -197,6 +198,24 @@ pub fn stop_recording(app: &tauri::AppHandle) -> Option<std::path::PathBuf> {
                                 if let Err(e) = write_transcription(app, &text) {
                                     eprintln!("Failed to use clipboard: {}", e);
                                 }
+
+                                // Send webhook asynchronously after transcription is pasted
+                                let app_clone = app.clone();
+                                let text_clone = text.clone();
+                                std::thread::spawn(move || {
+                                    let rt = match tokio::runtime::Runtime::new() {
+                                        Ok(runtime) => runtime,
+                                        Err(e) => {
+                                            eprintln!("Failed to create Tokio runtime for webhook: {}", e);
+                                            return;
+                                        }
+                                    };
+                                    rt.block_on(async {
+                                        if let Err(e) = webhook::send_webhook(&app_clone, &text_clone, Some(duration_seconds)).await {
+                                            eprintln!("Webhook error: {}", e);
+                                        }
+                                    });
+                                });
                             }
                             Err(e) => {
                                 eprintln!("Failed to get CC rules path: {}", e);

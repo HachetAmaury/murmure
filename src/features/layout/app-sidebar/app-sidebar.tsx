@@ -7,6 +7,7 @@ import {
     BookText,
     Power,
     Bug,
+    Send,
 } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
@@ -37,6 +38,7 @@ const getSettingsSubItems = (t: (key: string) => string) => [
         icon: BookText,
     },
     { name: t('System'), url: '/settings/system', icon: Power },
+    { name: t('Webhook'), url: '/settings/webhook', icon: Send },
 ];
 
 export const AppSidebar = () => {

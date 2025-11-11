@@ -324,6 +324,42 @@ pub fn set_persist_history(app: AppHandle, enabled: bool) -> Result<(), String> 
 }
 
 #[tauri::command]
+pub fn get_webhook_url(app: AppHandle) -> Result<Option<String>, String> {
+    let s = settings::load_settings(&app);
+    Ok(s.webhook_url)
+}
+
+#[tauri::command]
+pub fn set_webhook_url(app: AppHandle, url: Option<String>) -> Result<(), String> {
+    let mut s = settings::load_settings(&app);
+    s.webhook_url = url;
+    settings::save_settings(&app, &s)
+}
+
+#[tauri::command]
+pub fn get_webhook_token(app: AppHandle) -> Result<Option<String>, String> {
+    let s = settings::load_settings(&app);
+    Ok(s.webhook_token)
+}
+
+#[tauri::command]
+pub fn set_webhook_token(app: AppHandle, token: Option<String>) -> Result<(), String> {
+    let mut s = settings::load_settings(&app);
+    s.webhook_token = token;
+    settings::save_settings(&app, &s)
+}
+
+#[tauri::command]
+pub fn get_webhook_history(app: AppHandle) -> Result<Vec<crate::webhook_history::WebhookHistoryEntry>, String> {
+    crate::webhook_history::get_webhook_history(&app).map_err(|e| format!("{:#}", e))
+}
+
+#[tauri::command]
+pub fn clear_webhook_history(app: AppHandle) -> Result<(), String> {
+    crate::webhook_history::clear_webhook_history(&app).map_err(|e| format!("{:#}", e))
+}
+
+#[tauri::command]
 pub fn get_current_language(app: AppHandle) -> Result<String, String> {
     let s = settings::load_settings(&app);
     Ok(s.language)

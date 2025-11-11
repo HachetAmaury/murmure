@@ -14,6 +14,8 @@ pub struct AppSettings {
     pub api_port: u16,            // Port for local HTTP API
     pub copy_to_clipboard: bool,  // Keep transcription in clipboard after recording finishes
     pub persist_history: bool,    // Persist last 5 transcriptions to disk
+    pub webhook_url: Option<String>, // URL to send webhook requests after transcription
+    pub webhook_token: Option<String>, // Optional authentication token for webhook requests
     pub language: String, // UI language code (e.g., "en", "fr")
 }
 
@@ -29,6 +31,8 @@ impl Default for AppSettings {
             api_port: 4800,
             copy_to_clipboard: false,
             persist_history: true,
+            webhook_url: None,
+            webhook_token: None,
             language: "en".to_string(),
         }
     }

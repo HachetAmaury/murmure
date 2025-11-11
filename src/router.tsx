@@ -10,6 +10,7 @@ import { About } from './features/about/about';
 import { Shortcuts } from './features/settings/shortcuts/shortcuts';
 import { CustomDictionary } from './features/settings/custom-dictionary/custom-dictionary';
 import { System } from './features/settings/system/system';
+import { Webhook } from './features/settings/webhook/webhook';
 
 const rootRoute = createRootRoute({
     component: () => <Layout />,
@@ -39,6 +40,12 @@ const settingsSystemRoute = createRoute({
     component: System,
 });
 
+const settingsWebhookRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: '/settings/webhook',
+    component: Webhook,
+});
+
 const settingsIndexRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: '/settings',
@@ -57,6 +64,7 @@ const routeTree = rootRoute.addChildren([
     settingsShortcutsRoute,
     settingsCustomDictionaryRoute,
     settingsSystemRoute,
+    settingsWebhookRoute,
     aboutRoute,
 ]);
 

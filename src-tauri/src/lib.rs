@@ -11,6 +11,8 @@ mod settings;
 mod shortcuts;
 mod stats;
 mod tray_icon;
+mod webhook;
+mod webhook_history;
 
 use crate::shortcuts::init_shortcuts;
 use audio::preload_engine;
@@ -119,6 +121,12 @@ pub fn run() {
             get_usage_stats,
             get_persist_history,
             set_persist_history,
+            get_webhook_url,
+            set_webhook_url,
+            get_webhook_token,
+            set_webhook_token,
+            get_webhook_history,
+            clear_webhook_history,
             get_current_language,
             set_current_language,
         ])
